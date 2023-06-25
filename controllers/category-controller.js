@@ -39,13 +39,25 @@ const categoryController = {
       ])
       console.log(categories)
       if (!category) throw new Error("Category doesn't exist!")
-      
+
       const isCategoryExists = categories.some(cat => cat.name === name);
       if (isCategoryExists) {
         throw new Error('This category has already been created.');
       }
 
       await category.update({ name })
+
+      res.redirect('/admin/categories')
+    } catch (err) {
+      next(err)
+    }
+  },
+  deleteCategory: async (req, res, next) => {
+    try {
+      const category = await Category.findByPk(req.params.id)
+      if (!category) throw new Error("Category didn't exist!")
+
+      await category.destroy()
 
       res.redirect('/admin/categories')
     } catch (err) {
