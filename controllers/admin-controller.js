@@ -21,6 +21,31 @@ const adminController = {
     } catch (err) {
       next(err)
     }
+  },
+  createFood: async (req, res, next) => {
+    try {
+      const categories = await Category.findAll({ raw: true })
+      res.render('admin/create-food', { categories })
+    } catch (err) {
+      next(err)
+    }
+  },
+  postFood: (req, res, next) => {
+
+  const { name, description, price, categoryId, inventory } = req.body
+    if (!name || !description || !price || !inventory) throw new Error('All fields are required!');
+  Food.create({
+    name,
+    description,
+    price,
+    categoryId,
+    inventory
+  })
+    .then(() => {
+      req.flash('success_messages', 'Food was successfully created')
+      res.redirect('/admin/foods')
+    })
+    .catch(err => next(err))
   }
 }
 module.exports = adminController

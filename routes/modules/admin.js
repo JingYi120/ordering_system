@@ -9,7 +9,9 @@ router.delete('/categories/:id', categoryController.deleteCategory)
 router.get('/categories', categoryController.getCategories)
 router.post('/categories', categoryController.postCategory)
 
+router.get('/foods/create', adminController.createFood)
 router.get('/foods', adminController.getFoods)
+router.post('/foods', adminController.postFood)
 router.use('/', (req, res) => res.redirect('/admin/foods'))
 
 module.exports = router
