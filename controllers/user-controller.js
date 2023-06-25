@@ -6,16 +6,18 @@ const userController = {
     res.render('signup')
   },
   signUp: (req, res, next) => {
-    if (req.body.password !== req.body.passwordCheck) throw new Error('Passwords do not match!')
+    const { name, email, password, passwordCheck } = req.body
+    if (password !== passwordCheck) throw new Error('Passwords do not match!')
+    if (!name || !email || !password || !passwordCheck) throw new Error('All fields are required!')
 
-    User.findOne({ where: { email: req.body.email } })
+    User.findOne({ where: { email } })
       .then(user => {
         if (user) throw new Error('Email already exists!')
-        return bcrypt.hash(req.body.password, 10)
+        return bcrypt.hash(password, 10)
       })
       .then(hash => User.create({
-        name: req.body.name,
-        email: req.body.email,
+        name,
+        email,
         password: hash
       }))
       .then(() => {
