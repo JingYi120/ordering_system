@@ -95,5 +95,15 @@ const adminController = {
       next(err);
     }
   },
+  deleteFood: async (req, res, next) => {
+    try {
+      const food = await Food.findByPk(req.params.id)
+      if (!food) throw new Error("Food didn't exist!")
+      await food.destroy()
+      res.redirect('/admin/foods')
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 module.exports = adminController
