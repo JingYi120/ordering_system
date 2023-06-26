@@ -4,14 +4,13 @@
 </div>
 <div class="form-row mb-3">
   <label class="form-label" for="description">Description</label>
-  <textarea class="form-control" id="description" name="description" rows="3">{{food.description}}
-  </textarea>
+  <textarea class="form-control" id="description" name="description" rows="3">{{food.description}}</textarea>
 </div>
 <div class="form-row mb-3">
   <label class="form-label" for="categoryId">Category</label>
   <select class="form-control" id="categoryId" name="categoryId">
     {{#each categories}}
-    <option value="{{this.id}}" {{#ifCond this.id ../clothe.categoryId}} selected {{/ifCond}}>
+    <option value="{{this.id}}" {{#ifCond this.id ../food.categoryId}} selected {{/ifCond}}>
       {{this.name}}
     </option>
     {{/each}}
@@ -25,4 +24,17 @@
   <label class="form-label" for="inventory">Daily Inventory</label>
   <input class="form-control" type="text" name="inventory" id="inventory" placeholder="Enter daily inventory" value="{{food.inventory}}">
 </div>
+
+<div class="form-row mb-3">
+  <label class="form-label" for="image">Image</label>
+  <input class="form-control" type="file" class="form-control-file" id="image" name="image">
+  {{#if food.image}}
+  <div class="image-container d-flex flex-row my-3">
+    <div class="image-item position-relative">
+      <img src="{{food.image}}" alt="Image" class="img-thumbnail mt-2" style="max-width: 200px;">
+    </div>
+  </div>
+  {{/if}}
+</div>
 <button type="submit" class="btn btn-primary">Submit</button>
+<a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>

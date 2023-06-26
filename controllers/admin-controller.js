@@ -1,4 +1,5 @@
 const { Food, Category } = require('../models')
+const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getFoods: async(req, res, next) => {
@@ -30,22 +31,28 @@ const adminController = {
       next(err)
     }
   },
-  postFood: (req, res, next) => {
+  postFood: async(req, res, next) => {
+    try{
+      const { name, description, price, categoryId, inventory } = req.body
+      if (!name || !description || !price || !inventory) throw new Error('All fields are required!')
 
-  const { name, description, price, categoryId, inventory } = req.body
-    if (!name || !description || !price || !inventory) throw new Error('All fields are required!');
-  Food.create({
-    name,
-    description,
-    price,
-    categoryId,
-    inventory
-  })
-    .then(() => {
+      const { file } = req
+      const filePath = await imgurFileHandler(file)
+      await Food.create({
+        name,
+        description,
+        price,
+        categoryId,
+        inventory,
+        image: filePath || null
+      })
+
       req.flash('success_messages', 'Food was successfully created')
       res.redirect('/admin/foods')
-    })
-    .catch(err => next(err))
+
+    }catch(err){
+      next(err)
+    }
   },
   getFood: async (req, res, next) => {
     try {
@@ -77,8 +84,13 @@ const adminController = {
       const { name, description, price, categoryId, inventory } = req.body
 
       if (!name || !description || !price || !inventory) throw new Error('All fields are required!');
+      const { file } = req
 
-      const food = await Food.findByPk(req.params.id);
+      const [food, filePath] = await Promise.all([
+        Food.findByPk(req.params.id),
+        imgurFileHandler(file)
+      ])
+
       if (!food) throw new Error("Food doesn't exist!");
 
       await food.update({
@@ -86,7 +98,8 @@ const adminController = {
         description,
         price,
         categoryId,
-        inventory
+        inventory,
+        image: filePath || food.image
       });
 
       req.flash('success_messages', 'Food was successfully updated');
