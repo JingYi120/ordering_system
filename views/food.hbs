@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="mb-3">
+      <a class="btn btn-outline-secondary ml-auto" href="/foods">Back</a>
+    </div>
+    <div class="col-md-6">
+      <div class="well">
+        <div class="position-relative">
+          <img class="img-fluid" src="{{food.image}}"
+            style="width: 100%; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;"
+            onload="this.style.opacity=1;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="d-flex align-items-center">
+        <h2 class="mx-3">{{food.name}}</h2>
+      </div>
+      <span class="badge bg-secondary">{{food.Category.name}}</span>
+      <p>{{food.description}}</p>
+      <h4>NT.{{food.price}}</h4>
+      <form action="/orderDetails" method="POST">
+        <input type="hidden" name="foodId" value="{{food.id}}">
+        <div class="form-group">
+          <label for="quantity">Quantity:</label>
+          <input type="number" class="form-control my-3" id="quantity" name="quantity" value="1" min="1">
+        </div>
+        <button type="submit" class="btn btn-primary my-2">Add to list</button>
+      </form>
+    </div>
+  </div>

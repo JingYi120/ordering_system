@@ -1,1 +1,63 @@
-<div> foods</div>
+<div class="container">
+  <h2 class="text-center text-light pt-4">Order Panel</h2>
+  <div class="row">
+    <!-- left side order list -->
+    <div class="col-md-4 p-4" data-order-lists>
+      <div class="card mb-3">
+        <div class="card-body pt-3 pr-3">
+          <div class="text-right">
+            <span data-alpha-pos="delete-drink">×</span>
+          </div>
+          <h6 class="card-title mb-1">Black Tea</h6>
+          <div class="card-text">Less Ice</div>
+          <div class="card-text">Half Sugar</div>
+        </div>
+        <div class="card-footer text-right py-2">
+          <div class="card-text text-muted">$ <span data-drink-price>30</span></div>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button class="btn btn-light" style="min-width:120px;" data-alpha-pos="checkout">Checkout</button>
+      </div>
+    </div>
+    <!-- /left side order list-->
+
+    <!-- right side menu -->
+    <div class="col-md-8 p-4" data-order-panel>
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All Items</a>
+        </li>
+        {{#each categories}}
+        <li class="nav-item">
+          <a class="nav-link {{#ifCond this.id ../categoryId}}active{{/ifCond}}"
+            href="?categoryId={{this.id}}">{{this.name}}</a>
+        </li>
+        {{/each}}
+      </ul>
+      <div class="row mt-3">
+        {{#each foods}}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <a href="/foods/{{this.id}}">
+              <img class="card-img-top img-fluid" src="{{this.image}}" alt="Card image cap" width="286px" height="180px"
+                style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+            </a>
+            <div class="card-body">
+              <p class="card-text">
+                <a href="/foods/{{this.id}}">
+                  {{this.name}}
+                </a>
+              </p>
+              <p class="card-text text-truncate">NT. {{this.price}}</p>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <!-- /right side menu -->
+  </div>
+  <!-- /.row -->
+</div>
