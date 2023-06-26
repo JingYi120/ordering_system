@@ -34,10 +34,19 @@ const adminController = {
   postFood: async(req, res, next) => {
     try{
       const { name, description, price, categoryId, inventory } = req.body
+      const { file } = req
+      const [foods, filePath] = await Promise.all([
+        Food.findAll({ raw: true }),
+        imgurFileHandler(file)
+      ])
+
       if (!name || !description || !price || !inventory) throw new Error('All fields are required!')
 
-      const { file } = req
-      const filePath = await imgurFileHandler(file)
+      const isFoodExists = foods.some(cat => cat.name === name);
+      if (isFoodExists) {
+        throw new Error(`This name has already been created.`);
+      }
+      
       await Food.create({
         name,
         description,
@@ -86,12 +95,17 @@ const adminController = {
       if (!name || !description || !price || !inventory) throw new Error('All fields are required!');
       const { file } = req
 
-      const [food, filePath] = await Promise.all([
+      const [food, foods, filePath] = await Promise.all([
         Food.findByPk(req.params.id),
+        Food.findAll({ raw: true }),
         imgurFileHandler(file)
       ])
 
       if (!food) throw new Error("Food doesn't exist!");
+      const isFoodExists = foods.some(cat => cat.name === name);
+      if (isFoodExists) {
+        throw new Error(`This name has already been created.`);
+      }
 
       await food.update({
         name,
