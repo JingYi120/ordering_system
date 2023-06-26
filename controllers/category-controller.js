@@ -37,7 +37,7 @@ const categoryController = {
         Category.findAll({ raw: true }),
         Category.findByPk(req.params.id)
       ])
-      console.log(categories)
+
       if (!category) throw new Error("Category doesn't exist!")
 
       const isCategoryExists = categories.some(cat => cat.name === name);

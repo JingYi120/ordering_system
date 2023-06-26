@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="mb-3">
+      <a class="btn btn-outline-secondary ml-auto" href="/admin/foods">Back</a>
+    </div>
+
+    <div class="col-md-6">
+      <div class="well">
+        <div class="position-relative">
+          <img class="img-fluid" src="{{food.image}}"
+            style="width: 100%; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;"
+            onload="this.style.opacity=1;">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h2>{{food.name}}</h2>
+      <span class="badge bg-secondary">{{food.Category.name}}</span>
+      <p>{{food.description}}</p>
+      <h4>NT.{{food.price}}</h4>
+      <div class="d-flex my-4">
+        <h4 >Daily Inventory:</h4>
+        <h4 class="mx-3"><strong>{{food.inventory}}</strong></h4>
+      </div>
+    </div>
+  </div>
+</div>
