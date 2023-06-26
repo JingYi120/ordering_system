@@ -2,7 +2,7 @@
   <h2 class="text-center text-light pt-4">Order Panel</h2>
   <div class="row">
     <!-- left side order list -->
-    <div class="col-md-4 p-4" data-order-lists>
+    <div class="col-md-4 p-4 overflow-auto" style="max-height: 580px;" data-order-lists>
       <div class="card mb-3">
         <div class="card-body pt-3 pr-3">
           <div class="text-right">
@@ -24,7 +24,7 @@
     <!-- /left side order list-->
 
     <!-- right side menu -->
-    <div class="col-md-8 p-4" data-order-panel>
+    <div class="col-md-8 p-4 overflow-auto" style="max-height: 580px;" data-order-panel>
       <ul class="nav nav-pills">
         <li class="nav-item">
           <a class="nav-link {{#ifCond '' categoryId}}active{{/ifCond}}" href="?categoryId=">All Items</a>
