@@ -57,6 +57,43 @@ const adminController = {
     } catch (err) {
       next(err)
     }
-  }
+  },
+  editFood: async (req, res, next) => {
+    try {
+      const [food, categories] = await Promise.all([
+        Food.findByPk(req.params.id),
+        Category.findAll({ raw: true }),
+      ])
+
+      if (!food) throw new Error("Food didn't exist!")
+      
+      res.render('admin/edit-food', { food: food.toJSON(), categories })
+    } catch (err) {
+      next(err)
+    }
+  },
+  putFood: async (req, res, next) => {
+    try {
+      const { name, description, price, categoryId, inventory } = req.body
+
+      if (!name || !description || !price || !inventory) throw new Error('All fields are required!');
+
+      const food = await Food.findByPk(req.params.id);
+      if (!food) throw new Error("Food doesn't exist!");
+
+      await food.update({
+        name,
+        description,
+        price,
+        categoryId,
+        inventory
+      });
+
+      req.flash('success_messages', 'Food was successfully updated');
+      res.redirect('/admin/foods');
+    } catch (err) {
+      next(err);
+    }
+  },
 }
 module.exports = adminController

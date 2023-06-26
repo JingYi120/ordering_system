@@ -1,0 +1,28 @@
+<div class="form-row mb-3">
+  <label class="form-label" for="name">Name</label>
+  <input class="form-control" type="text" name="name" id="name" placeholder="Enter name" value="{{food.name}}" required>
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="description">Description</label>
+  <textarea class="form-control" id="description" name="description" rows="3">{{food.description}}
+  </textarea>
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="categoryId">Category</label>
+  <select class="form-control" id="categoryId" name="categoryId">
+    {{#each categories}}
+    <option value="{{this.id}}" {{#ifCond this.id ../clothe.categoryId}} selected {{/ifCond}}>
+      {{this.name}}
+    </option>
+    {{/each}}
+  </select>
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="price">Price</label>
+  <input class="form-control" type="text" name="price" id="price" placeholder="Enter price" value="{{food.price}}">
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="inventory">Daily Inventory</label>
+  <input class="form-control" type="text" name="inventory" id="inventory" placeholder="Enter daily inventory" value="{{food.inventory}}">
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
