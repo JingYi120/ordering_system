@@ -1,5 +1,6 @@
-const { Food, Category } = require('../models')
+const { Food, Category, Order, OrderDetail, User } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
+const dayjs = require('dayjs')
 
 const adminController = {
   getFoods: async(req, res, next) => {
@@ -131,6 +132,29 @@ const adminController = {
     } catch (err) {
       next(err)
     }
-  }
+  },
+  getOrders: async (req, res, next) => {
+    try {
+      const orders = await Order.findAll({
+        raw: true,
+        nest: true,
+        include: [User],
+        where: { isOrder: true },
+        order: [
+          ['isDone', 'asc'],
+          ['createdAt', 'asc']
+        ]
+      })
+
+      const result = orders.map(order => ({
+        ...order,
+        createdAt: dayjs(order.createdAt).format('YYYY-MM-DD') + '__' + dayjs(order.createdAt).format('HH:mm:ss')
+      }))
+
+      res.render('admin/orders', { orders: result })
+    } catch (err) {
+      next(err)
+    }
+  },
 }
 module.exports = adminController
