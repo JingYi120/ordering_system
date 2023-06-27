@@ -11,6 +11,8 @@ router.get('/categories', categoryController.getCategories)
 router.post('/categories', categoryController.postCategory)
 
 router.get('/orders', adminController.getOrders)
+router.get('/orders/:id', adminController.getOrder)
+router.patch('/orders/:id', adminController.patchOrder)
 
 router.get('/foods/create', adminController.createFood)
 router.get('/foods/:id/edit', adminController.editFood)
