@@ -1,24 +1,45 @@
-const { Food, Category } = require('../models')
+const { Food, Category, User, Order, OrderDetail } = require('../models')
+const { getUser } = require('../helpers/auth-helpers')
 
 const foodController = {
   getFoods: async (req, res, next) => {
     try {
+      const userId = getUser(req).id
       const categoryId = Number(req.query.categoryId) || ''
-      const [foods, categories] = await Promise.all([
+      const [foods, categories, order, user] = await Promise.all([
         Food.findAndCountAll({
           include: Category,
           where: { ...categoryId ? { categoryId } : {} },
           nest: true,
           raw: true
         }),
-        Category.findAll({ raw: true })
+        Category.findAll({ raw: true }),
+        Order.findOne({
+          where: { userId, isOrder: false },
+          include: { model: OrderDetail, include: Food }
+        }),
+        User.findByPk(userId)
       ])
 
-      res.render('foods', {
+      let total = 0;
+      if (order) {
+        order.OrderDetails.forEach((orderDetail) => {
+          const price = Number(orderDetail.Food.price);
+          const quantity = Number(orderDetail.quantity);
+          total += price * quantity;
+        });
+      }
+
+      return res.render('foods', {
         foods: foods.rows,
         categories,
-        categoryId
-      })
+        categoryId,
+        order: order ? order.toJSON() : null,
+        user: user ? user.toJSON() : null,
+        userId,
+        total,
+      });
+
     } catch (err) {
       next(err)
     }
