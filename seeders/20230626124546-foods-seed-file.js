@@ -12,7 +12,7 @@ module.exports = {
         description: faker.lorem.text(),
         price: Math.floor(Math.random() * 100)+50,
         inventory: Math.floor(Math.random() * 100),
-        image: `https://loremflickr.com/320/240/japanessfood/?random=${Math.random() * 100}`,
+        image: `https://loremflickr.com/320/240/japanessfood/?lock=${Math.random() * 100}`,
         created_at: new Date(),
         updated_at: new Date(),
         category_id: categories[Math.floor(Math.random() * categories.length)].id 

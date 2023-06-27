@@ -40,7 +40,7 @@ const orderDetailController = {
       }
 
       req.flash('success_messages', 'Add to cart!');
-      res.redirect(`/foods`);
+      res.redirect('/foods');
     } catch (err) {
       next(err);
     }

@@ -3,6 +3,7 @@ const router = express.Router()
 const foodController = require('../controllers/food-controller')
 const userController = require('../controllers/user-controller')
 const orderDetailController = require('../controllers/order-detail-controller')
+const orderController = require('../controllers/order-controller')
 const passport = require('../config/passport')
 const admin = require('./modules/admin')
 const { authenticated, authenticatedAdmin } = require('../middleware/auth')
@@ -18,6 +19,8 @@ router.get('/logout', userController.logout)
 
 router.post('/orderDetails', authenticated, orderDetailController.postOrderDetail)
 router.delete('/orderDetails/:id', authenticated, orderDetailController.deleteOrderDetail)
+
+router.post('/orders', authenticated, orderController.postOrder)
 
 router.get('/foods/:id', authenticated, foodController.getFood)
 router.get('/foods', authenticated, foodController.getFoods)
