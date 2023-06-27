@@ -1,22 +1,21 @@
 <div class="container">
-  <h2 class="text-center text-light pt-4">Order Panel</h2>
   <div class="row">
     <div class="col-md-4 p-4 overflow-auto" style="max-height: 580px;">
       <form action="/orders" method="POST">
         {{#if order}}
           {{#each order.OrderDetails}}
-            <div class="card mb-3">
+            <div class="card text-white bg-primary mb-3">
               <div class="card-body pt-3 pr-3">
                 <div class="text-end">
                   <i class="fa-solid fa-x fa-lg delete-icon" onclick="deleteOrderDetail({{this.id}}, this)"></i>
                 </div>
-                <h5><strong>{{this.Food.name}}</strong></h5>
-                <div class="pr-3">
-                  <span class="d-block text-primary">
+                <h4 class="card-title"><strong>{{this.Food.name}}</strong></h5>
+                <div class="card-text pr-3">
+                  <span class="d-block">
                     Quantity:
                     <span class="mx-2 quantity"><strong>{{this.quantity}}</strong></span>
                   </span>
-                  <span class="d-block text-primary my-2">
+                  <span class="d-block my-2">
                     Price: NT.
                     <span class="mx-2 price"><strong>{{this.Food.price}}</strong></span>
                   </span>

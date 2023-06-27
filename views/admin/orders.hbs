@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     {{#each orders}}
-    <tr>
+    <tr class="table-primary">
       <th scope="row">{{this.id}}</th>
       <td class="w-25"> {{this.createdAt}} </td>
       <td>{{this.User.name}}</td>
@@ -24,14 +24,14 @@
       <td>Processing</td>
       {{/if}}
       <td>
-        <button type="button" class="btn btn-link">
-          <a class="btn btn-link link-primary" href="/admin/orders/{{this.id}}">
+        <button type="button" class="btn btn-secondary mx-2">
+          <a class="text-decoration-none" href="/admin/orders/{{this.id}}">
             Details
           </a>
         </button>
 
         <form action="/admin/orders/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link link-danger"
+          <button type="submit" class="btn btn-dark text-danger"
             onclick="return confirm(`確定要刪除這筆資料嗎？\n Order ID: {{ this.id}} \n User: {{ this.User.name }}`)">Delete</button>
         </form>
       </td>

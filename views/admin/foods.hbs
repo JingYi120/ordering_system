@@ -34,25 +34,25 @@
   </thead>
   <tbody>
     {{#each foods}}
-    <tr>
+    <tr class="table-primary">
       <th scope="row">{{this.id}}</th>
       <td>{{this.name}}</td>
       <td>NT.{{this.price}}</td>
       <td>{{this.inventory}}</td>
       <td>{{this.Category.name}}</td>
       <td>
-        <button type="button" class="btn btn-link">
-          <a class="btn btn-link link-primary" href="/admin/foods/{{this.id}}">
+        <button type="button" class="btn btn-secondary mx-2">
+          <a class="text-decoration-none" href="/admin/foods/{{this.id}}">
             Detail
           </a>
         </button>
-        <button type="button" class="btn btn-link">
-          <a class="btn btn-link link-primary" href="/admin/foods/{{this.id}}/edit">
+        <button type="button" class="btn btn-primary">
+          <a class="text-decoration-none" href="/admin/foods/{{this.id}}/edit">
             Edit
           </a>
         </button>
         <form action="/admin/foods/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link link-danger"
+          <button type="submit" class="btn btn-dark text-danger mx-2"
             onclick="return confirm(`確定要刪除這筆資料嗎？\n ID: {{ this.id}} \n Name: {{ this.name }} \n Price: {{ this.price}} `)">Delete</button>
         </form>
       </td>
