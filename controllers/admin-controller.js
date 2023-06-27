@@ -192,5 +192,17 @@ const adminController = {
       next(err)
     }
   },
+  deleteOrder: async (req, res, next) => {
+    try {
+      const orderId = req.params.id
+      const order = await Order.findByPk(orderId, { include: OrderDetail })
+      if (!order) throw new Error("Order didn't exist!")
+      await Promise.all(order.OrderDetails.map(od => od.destroy()))
+      await order.destroy()
+      res.redirect('/admin/orders')
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 module.exports = adminController

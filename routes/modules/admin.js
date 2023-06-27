@@ -13,6 +13,7 @@ router.post('/categories', categoryController.postCategory)
 router.get('/orders', adminController.getOrders)
 router.get('/orders/:id', adminController.getOrder)
 router.patch('/orders/:id', adminController.patchOrder)
+router.delete('/orders/:id', adminController.deleteOrder)
 
 router.get('/foods/create', adminController.createFood)
 router.get('/foods/:id/edit', adminController.editFood)
