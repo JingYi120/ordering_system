@@ -19,6 +19,7 @@ const orderDetailController = {
 
       if (!user) throw new Error("User didn't exist!")
       if (!food) throw new Error("Food didn't exist!")
+      if (quantity > food.inventory) throw new Error(`Last ${food.inventory} servings!`)
 
       let orderId = ''
       if (!order) {
@@ -28,7 +29,7 @@ const orderDetailController = {
         orderId = order.id;
       }
 
-      if (orderDetail && orderDetail.Order.userId === userId) {
+      if (orderDetail && order.userId === userId) {
         orderDetail.quantity += Number(quantity);
         await orderDetail.save();
       } else {
@@ -39,6 +40,9 @@ const orderDetailController = {
         });
       }
 
+      food.inventory -= Number(quantity)
+      await food.save()
+
       req.flash('success_messages', 'Add to cart!');
       res.redirect('/foods');
     } catch (err) {
@@ -47,10 +51,14 @@ const orderDetailController = {
   },
   deleteOrderDetail: async (req, res, next) => {
     try {
-      const orderDetail = await OrderDetail.findByPk(req.params.id)
+      const orderDetail = await OrderDetail.findByPk(req.params.id,{
+        include: Food
+      })
       if (!orderDetail) throw new Error("OrderDetail didn't exist!")
 
-      await orderDetail.destroy()
+      const orderDetailDestroy = await orderDetail.destroy()
+      orderDetailDestroy.Food.inventory += Number(orderDetailDestroy.quantity)
+      await orderDetailDestroy.Food.save()
       res.sendStatus(200)
     } catch (err) {
       next(err)

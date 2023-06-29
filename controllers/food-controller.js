@@ -30,6 +30,8 @@ const foodController = {
         });
       }
 
+      // const inventoryZero = foods.rows.inventory === 0
+
       return res.render('foods', {
         foods: foods.rows,
         categories,
@@ -38,6 +40,7 @@ const foodController = {
         user: user ? user.toJSON() : null,
         userId,
         total,
+        // inventoryZero
       });
 
     } catch (err) {

@@ -54,15 +54,27 @@
         {{#each foods}}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <a href="/foods/{{this.id}}">
-              <img class="card-img-top img-fluid" src="{{this.image}}" alt="Card image cap" width="286px" height="180px"
-                style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
-            </a>
+            {{#ifCond this.inventory 0}}
+            <div class="d-flex align-items-center justify-content-center" style="height: 180px;">
+                <span><strong class="text-danger fs-5">Sold Out</strong></span>
+            </div>
+            {{else}}
+              <a href="/foods/{{this.id}}">
+                <img class="card-img-top img-fluid" src="{{this.image}}" alt="Card image cap" width="286px" height="180px"
+                  style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+              </a>
+            {{/ifCond}}
             <div class="card-body">
               <p class="card-text">
-                <a href="/foods/{{this.id}}">
+                {{#ifCond this.inventory 0}}
+                <a href="#" class="text-secondary text-decoration-none">
                   {{this.name}}
                 </a>
+                {{else}}
+                <a href="/foods/{{this.id}}" class="text-decoration-none">
+                  {{this.name}}
+                </a>
+                {{/ifCond}}
               </p>
               <p class="card-text text-truncate">NT. {{this.price}}</p>
             </div>
@@ -90,8 +102,18 @@
           totalElement.textContent = total.toFixed(2);
           card.remove();
           console.log("Order detail deleted successfully.");
+          reloadPageContent()
         })
         .catch(error => console.error("Error deleting order detail:", error))
 
+    }
+  function reloadPageContent() {
+      axios.get('/foods')
+        .then(response => {
+          const container = document.querySelector('.container');
+          container.innerHTML = response.data;
+          console.log("Page content reloaded successfully.");
+        })
+        .catch(error => console.error("Error reloading page content:", error));
     }
 </script>
