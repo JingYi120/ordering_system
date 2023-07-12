@@ -43,7 +43,7 @@ const adminController = {
 
       if (!name || !description || !price || !inventory) throw new Error('All fields are required!')
 
-      const isFoodExists = foods.some(cat => cat.name === name);
+      const isFoodExists = foods.some(item => item.name === name);
       if (isFoodExists) {
         throw new Error(`This name has already been created.`);
       }
@@ -103,7 +103,7 @@ const adminController = {
       ])
 
       if (!food) throw new Error("Food doesn't exist!");
-      const isFoodExists = foods.some(cat => cat.name === name);
+      const isFoodExists = foods.some(item => item.name === name && item.id.toString() !== req.params.id);
       if (isFoodExists) {
         throw new Error(`This name has already been created.`);
       }
