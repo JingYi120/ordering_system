@@ -40,7 +40,7 @@ const categoryController = {
 
       if (!category) throw new Error("Category doesn't exist!")
 
-      const isCategoryExists = categories.some(cat => cat.name === name);
+      const isCategoryExists = categories.some(cat => cat.name === name && cat.id.toString() !== req.params.id);
       if (isCategoryExists) {
         throw new Error('This category has already been created.');
       }
